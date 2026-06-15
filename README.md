@@ -68,26 +68,24 @@
 ## Быстрый старт
 
 1. Открыть `sales-objections-library.md` в Obsidian — основная таблица
-2. Или открыть `2026-06-15-objections-library-viewer.html` в браузере (двойной клик, без установки) — веб-интерфейс с поиском и фильтрами
+2. Или открыть `objections-library-viewer.html` в браузере (двойной клик, без установки) — веб-интерфейс с поиском и фильтрами
 3. Подробная инструкция по использованию и обновлению — см. [USER-GUIDE.md](USER-GUIDE.md)
 
 ## Структура проекта
 
 ```
 sales-objections-library.md          — основная таблица возражений (Obsidian)
-2026-06-15-objections-library-viewer.html — веб-интерфейс
+objections-library-viewer.html       — веб-интерфейс
 research-queue.md                    — очередь тем для ресёрча
 cases/                                — развёрнутые кейс-файлы
 templates/                           — шаблон новой записи
-exports/                              — CSV-экспорты для Google Таблиц
 screenshots/                          — скриншоты интерфейса (для USER-GUIDE)
 reports/                              — отчёты по проекту
-posts/                                — черновики постов для соцсетей
 ```
 
 ## Технологии
 
-Claude Code (агент и оркестрация), Obsidian (markdown-таблица как источник истины), статичная HTML/CSS/JS-страница (веб-интерфейс), CSV (экспорт в Google Таблицы).
+Claude Code (агент и оркестрация), Obsidian (markdown-таблица как источник истины), статичная HTML/CSS/JS-страница (веб-интерфейс).
 
 ## Главное правило
 
