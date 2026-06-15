@@ -1,0 +1,8 @@
+# Временные файлы тестирования через Playwright
+.playwright-mcp/
+
+# Локальные настройки Claude Code (не для публикации)
+.claude/settings.local.json
+
+# Файлы, не относящиеся к этому проекту
+_not-in-repo/

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Библиотека возражений и кейсов для B2B-продаж</title>
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --card: #ffffff;
+    --border: #e6e4e0;
+    --text: #37352f;
+    --muted: #9b9a97;
+    --accent: #2383e2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 4px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .controls {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 12px 0;
+    z-index: 10;
+  }
+  #search {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+  }
+  #search:focus {
+    border-color: var(--accent);
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .filter-btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .filter-btn:hover {
+    border-color: var(--accent);
+  }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .count {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 10px 0 16px;
+  }
+  .item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .item-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .item-header:hover {
+    background: #fbfbfa;
+  }
+  .toggle-arrow {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .item.open .toggle-arrow {
+    transform: rotate(90deg);
+  }
+  .item-title-wrap {
+    flex: 1;
+  }
+  .item-num {
+    color: var(--muted);
+    font-size: 12px;
+    margin-right: 6px;
+  }
+  .item-title {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f1f1ef;
+    color: #6b6a67;
+  }
+  .item-body {
+    display: none;
+    padding: 0 14px 16px 42px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .item.open .item-body {
+    display: block;
+  }
+  .field {
+    margin-bottom: 10px;
+  }
+  .field-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+  .field-value a {
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .field-value a:hover {
+    text-decoration: underline;
+  }
+  .case-link {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+  }
+  .case-link:hover {
+    border-color: var(--accent);
+  }
+  mark {
+    background: #fdf2a3;
+    border-radius: 2px;
+  }
+  #empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 0;
+  }
+  .hidden { display: none; }
+
+  .add-btn-row {
+    margin-top: 10px;
+  }
+  .btn-primary {
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: #1a6fc4; }
+  .btn-secondary {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--accent); }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,15,15,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+  .modal h2 { margin: 0 0 14px; font-size: 18px; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .form-group input, .form-group textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); outline: none; }
+  .form-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .badge-custom {
+    background: #e9f3ff;
+    color: var(--accent);
+  }
+  .item-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .item-actions button {
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .item-actions button:hover { border-color: var(--accent); }
+  .item-actions .danger:hover { border-color: #e03e3e; color: #e03e3e; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📚 Библиотека возражений и кейсов для B2B-продаж</h1>
+  <div class="subtitle">B2B-продажи обучения Zerocoder · 13 возражений · обновлено 2026-06-15</div>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Поиск по возражениям, аргументам, кейсам...">
+    <div class="filters" id="filters"></div>
+    <div class="add-btn-row">
+      <button class="btn-primary" id="add-btn">+ Добавить возражение</button>
+    </div>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div id="list"></div>
+  <div id="empty-state" class="hidden">Ничего не найдено</div>
+</div>
+
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <h2>Новое возражение</h2>
+    <form id="add-form">
+      <div class="form-group">
+        <label>Возражение *</label>
+        <input type="text" id="f-objection" required placeholder="«Например: ...»">
+      </div>
+      <div class="form-group">
+        <label>Контекст / когда возникает</label>
+        <input type="text" id="f-context" placeholder="На каком этапе переговоров возникает">
+      </div>
+      <div class="form-group">
+        <label>Ответ / аргумент</label>
+        <textarea id="f-argument" rows="3" placeholder="Как отвечать на возражение"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Кейс / цифра</label>
+        <textarea id="f-case" rows="3" placeholder="Реальный пример с результатом"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Источник</label>
+        <input type="text" id="f-source" placeholder="Ссылка или «Личный опыт менеджера»">
+      </div>
+      <div class="form-group">
+        <label>Компания / тег</label>
+        <input type="text" id="f-companies" placeholder="Например: Личный кейс (через запятую — если несколько)">
+        <div class="form-hint">Добавляется только в этом браузере (localStorage). Чтобы попало в общую библиотеку — скопируйте строку для таблицы и передайте агенту на подтверждение</div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="modal-cancel">Отмена</button>
+        <button type="submit" class="btn-primary">Добавить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {
+    num: 1,
+    objection: "«Дорого» / «Нет бюджета»",
+    context: "На этапе обсуждения стоимости программы",
+    argument: "Перевести разговор в плоскость ROI: сравнить стоимость обучения с экономией времени/ресурсов, которую дают новые навыки. Предложить разбить программу на модули или этапы оплаты",
+    caseText: "Кейс консультанта по бизнес-процессам: после внедрения ИИ-инструментов показатели воронки продаж выросли в 2-3 раза, time to market сократился в 2 раза",
+    sources: ["https://ya.zerocoder.ru/kak-konsultant-po-biznes-processam-sokratil-dolju-ruchnyh-operacij-s-60-70-do-5-6-s-pomoshhju-ii/"],
+    companies: ["Консультант"],
+    caseFile: null
+  },
+  {
+    num: 2,
+    objection: "«У сотрудников нет времени на обучение»",
+    context: "При обсуждении формата и графика",
+    argument: "Предложить гибкий формат (асинхронные модули, короткие интенсивы), показать, как обучение экономит время в перспективе",
+    caseText: "Инвитро: двухдневный тренинг для 25 топ-менеджеров — после него подготовка отчётов ускорилась в 2-3 раза, презентации — на 50% быстрее",
+    sources: ["https://ya.zerocoder.ru/kak-my-pomogli-invitro-uskorit-rabochie-processy-s-pomoshhju-ii/"],
+    companies: ["Инвитро"],
+    caseFile: "cases/2026-06-15-invitro-case-study.md"
+  },
+  {
+    num: 3,
+    objection: "«У нас уже есть свой отдел обучения / штатные тренеры»",
+    context: "При сравнении с внутренними ресурсами",
+    argument: "Уточнить, какие именно темы закрывает внутренний отдел — позиционировать программу как дополнение по узкой экспертизе (ИИ/новые инструменты), которой обычно нет внутри",
+    caseText: "«Синергия» — крупный университет с собственной образовательной экспертизой и штатным преподавательским составом — заказал у Zerocoder очное обучение по ИИ/нейросетям для 50+ топ-менеджеров: собственная экспертиза не закрывала именно ИИ-компетенции",
+    sources: ["https://zerocoder.ru/tpost/h823c18z11-ochnoe-obuchenie-ii-dlya-top-menedzherov"],
+    companies: ["Синергия"],
+    caseFile: null
+  },
+  {
+    num: 4,
+    objection: "«Не уверены в результате / ROI»",
+    context: "При обсуждении ценности программы",
+    argument: "Предложить пилотный модуль или демо-сессию, показать кейсы других компаний с измеримыми результатами",
+    caseText: "Инвитро — 100% участников внедрили ИИ в работу после обучения; кейс консультанта — доля ручных операций снижена с 60-70% до 5-6%",
+    sources: [
+      "https://ya.zerocoder.ru/kak-my-pomogli-invitro-uskorit-rabochie-processy-s-pomoshhju-ii/",
+      "https://ya.zerocoder.ru/kak-konsultant-po-biznes-processam-sokratil-dolju-ruchnyh-operacij-s-60-70-do-5-6-s-pomoshhju-ii/"
+    ],
+    companies: ["Инвитро", "Консультант"],
+    caseFile: "cases/2026-06-15-invitro-case-study.md"
+  },
+  {
+    num: 5,
+    objection: "«Нужно согласование с руководством»",
+    context: "На этапе принятия решения",
+    argument: "Предложить подготовить краткое резюме программы (1 стр.) для презентации руководству, предложить участие в звонке с ЛПР",
+    caseText: "Инвитро — кейс именно про обучение топ-менеджмента и директоров филиалов (25 человек) — прямой пример программы под уровень руководства",
+    sources: ["https://ya.zerocoder.ru/kak-my-pomogli-invitro-uskorit-rabochie-processy-s-pomoshhju-ii/"],
+    companies: ["Инвитро"],
+    caseFile: "cases/2026-06-15-invitro-case-study.md"
+  },
+  {
+    num: 6,
+    objection: "«Был негативный опыт с внешними подрядчиками»",
+    context: "При обсуждении доверия к поставщику",
+    argument: "Уточнить детали прошлого опыта, показать отличия в подходе (кастомизация программы, отчётность, поддержка после обучения)",
+    caseText: "Личный кейс: компания из сферы ИИ-разработки со штатом опытных разработчиков (~40 человек) ранее проходила корпоративные тренинги и готовые курсы по ИИ у других провайдеров — но программы были слишком общими, с избыточной вводной информацией. Zerocoder разработал индивидуальную 12-часовую программу под конкретные технические требования и уровень команды — договор заключён, обучение проведено для всей группы",
+    sources: ["Личный опыт менеджера по продажам (закрытая сделка)"],
+    companies: ["Личный кейс"],
+    caseFile: "cases/2026-06-15-ai-dev-company-case-study.md"
+  },
+  {
+    num: 7,
+    objection: "«Сотрудники перегружены текущими проектами»",
+    context: "При обсуждении сроков старта",
+    argument: "Предложить перенос сроков, поэтапный запуск или обучение части команды",
+    caseText: "Личный опыт: клиент с перегруженной командой выбрал поэтапный формат — первый этап обучения прошёл успешно, после чего клиент заказал второй этап для продолжения программы",
+    sources: ["Личный опыт менеджера по продажам"],
+    companies: ["Личный кейс"],
+    caseFile: null
+  },
+  {
+    num: 8,
+    objection: "«Можем найти бесплатные материалы в интернете»",
+    context: "При сравнении с самостоятельным обучением",
+    argument: "Подчеркнуть разницу: структурированная программа под задачи компании, практика на реальных кейсах, обратная связь и поддержка",
+    caseText: "NPS 94% по направлению вайбкодинга, выпускники выходят на рынок уже с 5-го месяца обучения, через карьерный центр прошло 260 млн ₽ заказов для выпускников — структурированная программа даёт измеримый результат, в отличие от разрозненных бесплатных материалов",
+    sources: ["https://zerocoder.ru/neyroseti-dlya-raboty"],
+    companies: ["Zerocoder"],
+    caseFile: null
+  },
+  {
+    num: 9,
+    objection: "«Не понимаем, как это применить в нашей специфике»",
+    context: "При обсуждении содержания программы",
+    argument: "Предложить уточняющую сессию для адаптации программы под отраслевые задачи компании, привести примеры адаптации для похожих ниш",
+    caseText: "Кейс консультанта — программа адаптирована под задачи торгово-производственной компании (вывод нового продукта на рынок)",
+    sources: ["https://ya.zerocoder.ru/kak-konsultant-po-biznes-processam-sokratil-dolju-ruchnyh-operacij-s-60-70-do-5-6-s-pomoshhju-ii/"],
+    companies: ["Консультант"],
+    caseFile: null
+  },
+  {
+    num: 10,
+    objection: "«Сложно оценить эффективность после обучения»",
+    context: "При обсуждении итогов и отчётности",
+    argument: "Предложить заранее согласовать метрики успеха и формат итогового отчёта/демонстрации результатов",
+    caseText: "CuPor (руководитель проектов) — измеримое снижение потерь задач в команде на 30%; Инвитро — конкретные % изменений (2-3х, 50%) сразу после обучения как пример метрик",
+    sources: [
+      "https://ya.zerocoder.ru/kak-rukovoditel-proektov-razrabotal-ii-instrument-dlya-analiza-perepisok-i-snizil-poteri-zadach-v-komande-na-30/",
+      "https://ya.zerocoder.ru/kak-my-pomogli-invitro-uskorit-rabochie-processy-s-pomoshhju-ii/"
+    ],
+    companies: ["CuPor", "Инвитро"],
+    caseFile: null
+  },
+  {
+    num: 11,
+    objection: "«Хотим сначала посмотреть демо / пробный урок»",
+    context: "На раннем этапе переговоров",
+    argument: "Предложить пробный модуль или открытый урок как часть воронки",
+    caseText: "Личный опыт: несколько клиентов начинали с пилотного обучения на малой группе сотрудников, а затем заказывали более глубокую программу для большей команды — пилот стал точкой входа в расширенный контракт",
+    sources: ["Личный опыт менеджера по продажам"],
+    companies: ["Личный кейс"],
+    caseFile: null
+  },
+  {
+    num: 12,
+    objection: "«Решение зависит не только от нас, нужно обсудить с другими отделами»",
+    context: "На этапе принятия решения",
+    argument: "Предложить созвон с участием всех заинтересованных сторон, подготовить материалы под каждую аудиторию",
+    caseText: "Инвитро — программа охватила топ-менеджеров и директоров филиалов сразу нескольких подразделений одной компанией",
+    sources: ["https://ya.zerocoder.ru/kak-my-pomogli-invitro-uskorit-rabochie-processy-s-pomoshhju-ii/"],
+    companies: ["Инвитро"],
+    caseFile: "cases/2026-06-15-invitro-case-study.md"
+  },
+  {
+    num: 13,
+    objection: "«Обучение не согласовало руководство, не прошли по бюджету»",
+    context: "Клиент возвращается после внутреннего согласования с отказом из-за бюджета — риск заморозки сделки",
+    argument: "Предложить уменьшенный пилотный формат (меньше часов/группа) под доступный сейчас бюджет, с возможностью расширения позже; либо зафиксировать условия для запуска в начале следующего бюджетного периода",
+    caseText: "Тот же личный кейс поэтапного формата (как в №7, №11) — клиент успешно прошёл пилот, затем заказал второй этап",
+    sources: ["Личный опыт менеджера по продажам"],
+    companies: ["Личный кейс"],
+    caseFile: null
+  }
+];
+
+const ALL_COMPANIES = ["Все", "Инвитро", "Синергия", "CuPor", "Консультант", "Личный кейс", "Zerocoder"];
+const STORAGE_KEY = "objections-library-custom-items";
+
+let activeCompany = "Все";
+let searchTerm = "";
+let customItems = [];
+try {
+  customItems = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+} catch (e) {
+  customItems = [];
+}
+
+const list = document.getElementById("list");
+const emptyState = document.getElementById("empty-state");
+const countEl = document.getElementById("count");
+const filtersEl = document.getElementById("filters");
+const searchEl = document.getElementById("search");
+const addBtn = document.getElementById("add-btn");
+const modalOverlay = document.getElementById("modal-overlay");
+const modalCancel = document.getElementById("modal-cancel");
+const addForm = document.getElementById("add-form");
+
+function getAllItems() {
+  return [...DATA, ...customItems];
+}
+
+function saveCustomItems() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(customItems));
+}
+
+function buildFilters() {
+  const companies = new Set(ALL_COMPANIES);
+  getAllItems().forEach(item => item.companies.forEach(c => companies.add(c)));
+  if (customItems.length > 0) companies.add("Добавлено вами");
+
+  filtersEl.innerHTML = "";
+  companies.forEach(name => {
+    const btn = document.createElement("button");
+    btn.className = "filter-btn" + (name === activeCompany ? " active" : "");
+    btn.textContent = name;
+    btn.dataset.company = name;
+    btn.addEventListener("click", () => {
+      activeCompany = name;
+      render();
+    });
+    filtersEl.appendChild(btn);
+  });
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+
+function highlight(text) {
+  const safe = escapeHtml(text);
+  if (!searchTerm) return safe;
+  const re = new RegExp("(" + searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig");
+  return safe.replace(re, "<mark>$1</mark>");
+}
+
+function isUrl(s) {
+  return /^https?:\/\//.test(s.trim());
+}
+
+function copyRowToClipboard(item) {
+  const esc = s => String(s).replace(/\|/g, "\\|").replace(/\n/g, " ");
+  const row = `| ${item.num} | ${esc(item.objection)} | ${esc(item.context)} | ${esc(item.argument)} | ${esc(item.caseText)} | ${esc(item.sources.join(" ; "))} |`;
+  navigator.clipboard.writeText(row).then(() => {
+    alert("Строка скопирована — вставьте в sales-objections-library.md на подтверждение");
+  });
+}
+
+function deleteCustomItem(id) {
+  customItems = customItems.filter(i => i.id !== id);
+  saveCustomItems();
+  render();
+}
+
+function render() {
+  buildFilters();
+  list.innerHTML = "";
+  const term = searchTerm.toLowerCase();
+  const allItems = getAllItems();
+
+  let visibleCount = 0;
+
+  allItems.forEach(item => {
+    const matchesCompany = activeCompany === "Все"
+      || (activeCompany === "Добавлено вами" && item.isCustom)
+      || item.companies.includes(activeCompany);
+    const fullText = [item.objection, item.context, item.argument, item.caseText, item.sources.join(" ")].join(" ").toLowerCase();
+    const matchesSearch = term === "" || fullText.includes(term);
+
+    if (!matchesCompany || !matchesSearch) return;
+    visibleCount++;
+
+    const wrap = document.createElement("div");
+    wrap.className = "item" + (term ? " open" : "");
+
+    const header = document.createElement("div");
+    header.className = "item-header";
+    header.innerHTML = `
+      <div class="toggle-arrow">▶</div>
+      <div class="item-title-wrap">
+        <span class="item-num">№${item.num}</span><span class="item-title">${highlight(item.objection)}</span>
+        <div class="badges">${item.companies.map(c => `<span class="badge">${escapeHtml(c)}</span>`).join("")}${item.isCustom ? `<span class="badge badge-custom">Добавлено вами</span>` : ""}</div>
+      </div>
+    `;
+    header.addEventListener("click", () => {
+      wrap.classList.toggle("open");
+    });
+
+    const sourcesHtml = item.sources.map(s => isUrl(s) ? `<a href="${escapeHtml(s)}" target="_blank" rel="noopener">${escapeHtml(s)}</a>` : escapeHtml(s)).join("<br>");
+
+    const body = document.createElement("div");
+    body.className = "item-body";
+    body.innerHTML = `
+      <div class="field"><div class="field-label">Контекст / когда возникает</div><div class="field-value">${highlight(item.context)}</div></div>
+      <div class="field"><div class="field-label">Ответ / аргумент</div><div class="field-value">${highlight(item.argument)}</div></div>
+      <div class="field"><div class="field-label">Кейс / цифра</div><div class="field-value">${highlight(item.caseText)}</div></div>
+      <div class="field"><div class="field-label">Источник</div><div class="field-value">${sourcesHtml}</div></div>
+      ${item.caseFile ? `<a class="case-link" href="${item.caseFile}" target="_blank">Открыть файл кейса →</a>` : ""}
+      ${item.isCustom ? `<div class="item-actions"><button type="button" data-action="copy">Скопировать как строку таблицы</button><button type="button" class="danger" data-action="delete">Удалить</button></div>` : ""}
+    `;
+
+    if (item.isCustom) {
+      body.querySelector('[data-action="copy"]').addEventListener("click", e => {
+        e.stopPropagation();
+        copyRowToClipboard(item);
+      });
+      body.querySelector('[data-action="delete"]').addEventListener("click", e => {
+        e.stopPropagation();
+        deleteCustomItem(item.id);
+      });
+    }
+
+    wrap.appendChild(header);
+    wrap.appendChild(body);
+    list.appendChild(wrap);
+  });
+
+  countEl.textContent = `Показано ${visibleCount} из ${allItems.length}`;
+  emptyState.classList.toggle("hidden", visibleCount > 0);
+}
+
+searchEl.addEventListener("input", e => {
+  searchTerm = e.target.value.trim();
+  render();
+});
+
+function openModal() {
+  addForm.reset();
+  modalOverlay.classList.remove("hidden");
+}
+
+function closeModal() {
+  modalOverlay.classList.add("hidden");
+}
+
+addBtn.addEventListener("click", openModal);
+modalCancel.addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", e => {
+  if (e.target === modalOverlay) closeModal();
+});
+
+addForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const objection = document.getElementById("f-objection").value.trim();
+  if (!objection) return;
+
+  const context = document.getElementById("f-context").value.trim();
+  const argument = document.getElementById("f-argument").value.trim();
+  const caseText = document.getElementById("f-case").value.trim();
+  const source = document.getElementById("f-source").value.trim();
+  const companiesRaw = document.getElementById("f-companies").value.trim();
+  const companies = companiesRaw ? companiesRaw.split(",").map(s => s.trim()).filter(Boolean) : ["Добавлено вами"];
+
+  const maxNum = Math.max(0, ...getAllItems().map(i => i.num));
+
+  customItems.push({
+    id: "custom-" + Date.now(),
+    num: maxNum + 1,
+    objection,
+    context: context || "—",
+    argument: argument || "—",
+    caseText: caseText || "—",
+    sources: [source || "—"],
+    companies,
+    caseFile: null,
+    isCustom: true
+  });
+
+  saveCustomItems();
+  closeModal();
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

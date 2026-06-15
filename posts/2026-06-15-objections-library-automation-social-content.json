@@ -1,0 +1,16 @@
+{
+  "schema_version": "social-content/v1",
+  "source": {
+    "title": "Как менеджер по продажам автоматизировал базу возражений с Claude Code за 30 дней",
+    "published_at": "2026-06-15"
+  },
+  "image_prompt": "Flat-design vector illustration split into two halves by a thin vertical line. Left half: a dim, grayscale spreadsheet on a laptop screen where every cell in one column shows the placeholder text 'TBD', next to a tired person in business attire looking at it with a neutral expression. Right half: the same spreadsheet now in vibrant colors, the same column filled with checkmarks and small icons (chat bubble, lightbulb, document), the same person now smiling while on a phone call. A small glowing terminal window with a blinking cursor sits between the two halves, symbolizing the AI agent at work. Soft gradient lighting, bright clean color palette, modern professional vector style, 4k.",
+  "platforms": {
+    "telegram": {
+      "content": "📊 Как превратить таблицу с «заполнить» в рабочий инструмент — кейс из практики\n\nМенеджер по продажам, агент Claude Code и 30 дней — вот и весь состав участников.\n\nБыла таблица возражений в Obsidian: 12 формулировок вроде «Дорого» или «Нет времени на обучение», и в каждой строке колонка «Кейс/цифра» стояла как заглушка. Аргумент на звонке есть, а подтверждения под рукой нет.\n\nЗа 30 дней без единой новой платной подписки — только Claude Code Pro — агент собрал кейсы Zerocoder из открытых источников, помог оформить личные истории менеджера и связал всё это с нужными строками таблицы. Сейчас заполнено 12 из 13 — последняя строка ждёт в очереди на ресёрч.\n\nГлавный результат — не сама таблица, а скорость: новое возражение с реального звонка превращается в готовый ответ с кейсом и источником за минуту. Раньше на это уходило 10-15 минут вручную.\n\nЕсли у вас есть «таблица на бумаге» без подтверждённых аргументов — такой же подход доводит её до рабочего состояния за месяц.\n\n— @[ник], [ссылка на курс]"
+    },
+    "vk": {
+      "content": "Была таблица возражений в Obsidian — 12 строк, и в каждой колонка «Кейс/цифра» стояла как «заполнить». Знакомо?\n\nЗа 30 дней менеджер по продажам Zerocoder привёл её в рабочий вид — без новых платных подписок, только с Claude Code Pro. Агент нашёл реальные кейсы компании в открытых источниках, помог оформить личные истории из практики и связал всё с нужными строками.\n\nРезультат: 12 из 13 строк заполнены кейсами и источниками — было 0 из 12. А главное — новое возражение с живого звонка превращается в готовый ответ с подтверждённым кейсом за минуту, вместо 10-15 минут ручного поиска.\n\nУ вас в работе есть такая же «таблица-заглушка», которую давно пора довести до конца?\n\n#ИИ #автоматизация #продажи #ClaudeCode #базазнаний"
+    }
+  }
+}
